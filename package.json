@@ -1,0 +1,22 @@
+{
+  "name": "comp426-final",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MincenLiu/comp426-final.git"
+  },
+  "author": "Mincen Liu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MincenLiu/comp426-final/issues"
+  },
+  "homepage": "https://github.com/MincenLiu/comp426-final#readme",
+  "dependencies": {
+    "browser-sync": "^2.26.14"
+  }
+}
