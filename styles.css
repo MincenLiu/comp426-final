@@ -1,0 +1,179 @@
+.hide {
+  display: none;
+}
+
+input[type="email"],
+input[type="password"] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+body {
+  max-width: 950px;
+  margin: auto;
+  padding: 2px;
+}
+
+#date {
+  font-size: 30px;
+}
+
+#quote {
+  font-size: 20px;
+  font-style: italic;
+  font-weight: bold;
+}
+
+button {
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: solid;
+  cursor: pointer;
+}
+
+.calendar {
+  width: 480px;
+  height: 420px;
+  background: #fff;
+  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.1);
+}
+.body-list ul {
+  width: 80%;
+  font-family: arial;
+  font-weight: bold;
+  font-size: 14px;
+}
+.body-list ul li {
+  width: 14.28%;
+  height: 36px;
+  line-height: 36px;
+  list-style-type: none;
+  display: block;
+  box-sizing: border-box;
+  float: left;
+  text-align: center;
+}
+
+.lightgrey {
+  color: #a8a8a8;
+}
+.darkgrey {
+  color: #565656;
+}
+
+.green {
+  color: #6ac13c;
+}
+
+.greenbox {
+  border: 1px solid #6ac13c;
+  background: #e9f8df;
+}
+
+.todo {
+  display: block;
+  background-color: #e0c963;
+  font-family: "Helvetica Neue", Roboto, "Segoe UI", Calibri, sans-serif;
+  font-size: 20px;
+  line-height: 25px;
+  border-color: #eee #ddd #bbb;
+  border-radius: 5px;
+  border-style: solid;
+  border-width: 1px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+  margin: 10px 5px;
+  padding: 5px 16px 16px 16px;
+  max-width: 600px;
+  height: 100px;
+}
+
+#modes {
+  display: block;
+  background-color: #a296ac;
+}
+
+#place {
+  display: block;
+  background-color: #a296ac;
+}
+
+#time {
+  display: block;
+  background-color: #7fcc1b;
+}
+
+table,
+th,
+td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+th,
+td {
+  padding: 5px;
+  text-align: left;
+}
+
+#weather {
+  background-color: #ffffffa6;
+}
+
+.box {
+  height: 200px;
+}
+
+#location {
+  height: 50px;
+  width: 600px;
+}
+
+#calendar-title {
+  font-size: 40px;
+}
+
+#calendar-year {
+  font-size: 30px;
+}
+
+#calendar-title,
+#calendar-year {
+  width: 50%;
+  height: 60px;
+  margin: 0;
+  padding: 5px;
+  display: inline;
+}
+
+.bar {
+  width: 100%;
+  overflow: hidden;
+}
+.bar-item {
+  padding: 8px 16px;
+  float: left;
+  width: auto;
+  border: none;
+  display: block;
+  outline: 0;
+}
+.bar-button {
+  white-space: normal;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+#collapse {
+  height: 20px;
+  width: 20px;
+}
