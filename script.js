@@ -4,6 +4,10 @@
 // API4: Google Places API
 // API5: alarm?? Alert user time to sleep????
 
+
+// require user to input time!!!!!!!
+//!!!!
+
 // show weather based on location
 
 // Autocompletion on location
@@ -353,18 +357,17 @@ function submitNewTodo(e) {
 
     let $todos = $('#todos');
     let starts = $('#starts').val();
+    console.log(starts);
     let ends = $('#ends').val();
-    let place = $("input[name='place']:checked").val();
     let event = $('#event').val();
     let location = $('#location').val();
     let notes = $('#notes').val();
 
-    // clear fields
-    $('#newTodoForm')[0].reset();
-
-    if (starts > ends) {
-        alert('End time should be after start time.');
-    }
+    // check ends > starts: to do
+    // if (starts > ends) {
+    //     alert('End time should be after start time.');
+    // }
+    //////////////////
 
     let loc = '';
     if (location !== '') {
@@ -376,7 +379,9 @@ function submitNewTodo(e) {
         not = `<div>Notes: ${notes}</div>`;
     }
 
-    let newTodo = `<div class="todo">
+    // add edit and delete, generate random color for its background
+    let newTodo = `
+    <div class="todo">
         <div>${event}</div>
         <div>from ${starts} to ${ends}</div>
 
@@ -388,9 +393,13 @@ function submitNewTodo(e) {
     if (event === '') {
         alert('Please specify a new event.');
     } else {
-        $todos.append(newTodo);
+        document.getElementById(`e-${starts}`).innerHTML = newTodo;
+        // $("#e-"+starts).append(newTodo);
         // $('#newCompose').replaceWith(`<button class="but" id="compose">Click Here to Add A New Event</button>`);
     }
+
+    // clear fields
+    $('#newTodoForm')[0].reset();
 }
 
 // empty that time slot
@@ -536,19 +545,20 @@ function pad (str, max) {
 function calculate_time_slot(start_time, end_time){
     let formatted_time;
     let time_slots = new Array();
-    for(let i=start_time; i<=end_time; i = i+60){
+    for(let i=start_time; i<=end_time; i = i+30){
         formatted_time = convertHours(i);
         time_slots.push(formatted_time);
     }
     return time_slots;
 }
 
+// generate time slots and time pickers
 function genTimeSlots(startTime) {
     let c = startTime.split(':');
-    let start_time = c[0] + ":00";
-    start_time = parseTime(start_time);
-    let end_time = "24:00";
-    end_time = parseTime(end_time);
+    let starti = c[0] + ":00";
+    let start_time = parseTime(starti);
+    let endti = "23:30";
+    let end_time = parseTime(endti);
 
     let slots = calculate_time_slot(start_time, end_time);
 
@@ -557,23 +567,41 @@ function genTimeSlots(startTime) {
     for (let i = 0; i < slots.length; i++) {
         elems += `
             <tr>
-                <td id="${slots[i]}">${slots[i]}</td>
+                <td id="t-${slots[i]}">${slots[i]}</td>
+                <td id="e-${slots[i]}"></td>
             </tr>
         `;
     };
 
     $('#colNames').after(elems);
+    $('#starts').timepicker({
+        'minTime': `${starti}`,
+	    'maxTime': "23:00",
+        'timeFormat': 'HH:mm'
+    });
+
+    $('#ends').timepicker({
+        'minTime': `${starti}`,
+	    'maxTime': "23:30",
+        'timeFormat': 'HH:mm',
+    });
 }
 
 export async function load() {
     loadPage();
+    // $('#starts').timepicker({
+    //     'timeFormat': 'HH:mm',
+    // });
+    // $('#ends').timepicker({
+    //     'timeFormat': 'HH:mm',
+    // });
     let $root = $('#root');
 
     $('body').on('click', '#btnLogIn', login);
     $('body').on('click', '#btnSignUp', signup);
     $('body').on('click', '#btnLogOut', logout);
     // $('body').on('click', '#compose', showNewCompose);
-    $('body').on('click', '#submitTodo', submitNewTodo);
+    $root.on('click', '#submitTodo', submitNewTodo);
 
     $root.on('click', '#prev', prevMonth);
     $root.on('click', '#next', nextMonth);

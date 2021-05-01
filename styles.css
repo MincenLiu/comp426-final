@@ -219,3 +219,8 @@ td {
   max-height: 30%;
   overflow: auto;
 }
+
+table {
+  width: 600px;
+  border: 1px solid black;
+}
