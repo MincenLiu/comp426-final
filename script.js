@@ -2,7 +2,9 @@
 // API2: IP Geo Location (https://rapidapi.com/natkapral/api/ip-geo-location/endpoints)
 // API3: Open Weather Map (https://rapidapi.com/community/api/open-weather-map?endpoint=53aa6041e4b00287471a2b62)
 // API4: Google Places API
-// API5: 
+// API5: alarm?? Alert user time to sleep????
+
+// show weather based on location
 
 // Autocompletion on location
 
@@ -19,7 +21,8 @@ function login(e) {
 
     // Log In
     const promise = auth.signInWithEmailAndPassword(email, pass);
-    promise.then(() => {      
+    promise.then(() => {
+        $('#afterWakeUp').addClass('hide');      
         dbRefUsers.child(emailStr).child("isDark").on('value', function(snapshot) {
             let dark = snapshot.val();
 
@@ -29,8 +32,34 @@ function login(e) {
                 lightMode();
             };
         });
+
+        let wakeUpPopUp = `
+            <div id="popup" class="popup">
+                <h2>What time did you wake up today?</h2>
+                <input type="image" id="close" alt="Close" src="./assets/Check.png">
+                <input type="time" id="wakeUp" name="wakeUp" required>
+            </div>`;
+
+        if (!$('#popup').length) {
+            $('#weather').after(wakeUpPopUp);
+        }
     });
     promise.catch(e => console.log(e.message));
+}
+
+function timeOk() {
+    // remove popup, display new Todo, add time slots...
+    let wakeUpTime = $('#wakeUp').val();
+
+    if (wakeUpTime !== '') {
+        $('#popup').remove();
+        $('#afterWakeUp').removeClass('hide');
+        genTimeSlots(wakeUpTime);
+    } else {
+        if (!$('#inputPlz').length) {
+            $('#wakeUp').after('<p id="inputPlz">Please input your wakeup time.</p>');
+        }
+    }
 }
 
 /////////// Not work: relogin everytime?////////// may be combine with some user property?
@@ -331,7 +360,7 @@ function submitNewTodo(e) {
     let notes = $('#notes').val();
 
     // clear fields
-    
+    $('#newTodoForm')[0].reset();
 
     if (starts > ends) {
         alert('End time should be after start time.');
@@ -364,13 +393,14 @@ function submitNewTodo(e) {
     }
 }
 
-
+// empty that time slot
 function deleteToDo() {
 
 }
 
 function cancelNewTodo() {
     // $('#newCompose').replaceWith(`<button class="but" id="compose">Click Here to Add A New Event</button>`);
+    $('#newTodoForm')[0].reset();
 }
 
 
@@ -478,12 +508,62 @@ async function curWeather() {
     // console.log(result2);
 }
 
+// make the calendar close
 function collapse(e) {
     e.preventDefault();
     // add hide to calendar
     $('#cal').addClass('hide');
 }
 
+// add time slots in the table
+function parseTime(s) {
+    var c = s.split(':');
+    return parseInt(c[0]) * 60 + parseInt(c[1]);
+}
+
+function convertHours(mins){
+    var hour = Math.floor(mins/60);
+    var mins = mins%60;
+    var converted = pad(hour, 2)+':'+ pad(mins, 2);
+    return converted;
+}
+
+function pad (str, max) {
+    str = str.toString();
+    return str.length < max ? pad("0" + str, max) : str;
+}
+
+function calculate_time_slot(start_time, end_time){
+    let formatted_time;
+    let time_slots = new Array();
+    for(let i=start_time; i<=end_time; i = i+60){
+        formatted_time = convertHours(i);
+        time_slots.push(formatted_time);
+    }
+    return time_slots;
+}
+
+function genTimeSlots(startTime) {
+    let c = startTime.split(':');
+    let start_time = c[0] + ":00";
+    start_time = parseTime(start_time);
+    let end_time = "24:00";
+    end_time = parseTime(end_time);
+
+    let slots = calculate_time_slot(start_time, end_time);
+
+    let elems = '';
+
+    for (let i = 0; i < slots.length; i++) {
+        elems += `
+            <tr>
+                <td id="${slots[i]}">${slots[i]}</td>
+            </tr>
+        `;
+    };
+
+    $('#colNames').after(elems);
+}
 
 export async function load() {
     loadPage();
@@ -502,9 +582,16 @@ export async function load() {
     $root.on('click', '#getWeather', curWeather);
     $root.on('click', '#viewCal', viewCalendar);
     $root.on('click', '#collapse', collapse);
+    $root.on('click', '#close', timeOk);
     // $root.on('click', 'id of button', function);
 }
 
 $(function() {
     load();
 });
+
+
+
+// hourly timeinput
+// when to go to bed, alarm api
+// payment??

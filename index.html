@@ -107,49 +107,49 @@
               <div id="weatherContainer"></div>
             </div>
 
-            <div id="map"></div>
+            <div id="afterWakeUp">
+              <h1 id="header1">New Todo</h1>
+              <div class="todoContainer" id="newCompose">
+                <form id="newTodoForm">
+                    <textarea id="event" rows="4" cols="70" placeholder="New Event"></textarea>
+                    <br>
+                    <br>
+    
+                    <div id="time">
+                        <label for="starts">starts: </label>
+                        <input type="time" id="starts" name="starts">
+    
+                        <label for="ends">ends: </label>
+                        <input type="time" id="ends" name="ends">
+                    </div>
+                    <br>
+    
+                    <input id="location" placeholder="Enter a place" type="text"/>
+                    <br>
+                    <br>
+    
+                    <textarea id="notes" rows="3" cols="70" placeholder="Add Notes"></textarea>
+                    <br>
+    
+                    <div>
+                        <button class="but" id="submitTodo">Confirm</button>
+                        <button class="but" id="cancelNew">Cancel</button>
+                    </div>
+                </form>
+              </div>
 
-            <h1 id="header1">New Todo</h1>
-            <div class="todoContainer" id="newCompose">
-              <form>
-                  <textarea id="event" rows="4" cols="70" placeholder="New Event"></textarea>
-                  <br>
-                  <br>
-  
-                  <div id="time">
-                      <label for="starts">starts: </label>
-                      <input type="time" id="starts" name="starts">
-  
-                      <label for="ends">ends: </label>
-                      <input type="time" id="ends" name="ends">
-                  </div>
-                  
-                  <div id="place">
-                      <p>Choose a place: </p>
-                      <input type="radio" id="home" name="place" value="Stay at home">
-                      <label for="home">Stay at home</label><br>
-                      <input type="radio" id="out" name="place" value="Go out">
-                      <label for="out">Go out</label>
-                  </div>
-                  <br>
-                  <br>
-  
-                  <input id="location" placeholder="Enter a place" type="text"/>
-                  <br>
-                  <br>
-  
-                  <textarea id="notes" rows="3" cols="70" placeholder="Add Notes"></textarea>
-                  <br>
-  
-                  <div>
-                      <button class="but" id="submitTodo">Confirm</button>
-                      <button class="but" id="cancelNew">Cancel</button>
-                  </div>
-              </form>
-          </div>
-            
-          <div id='todos'>
-            <h1 id="header2">My Day</h1>
+              <table id='todosWTime'>
+                <caption>My Day</caption>
+                <tr id="colNames">
+                  <th>Time</th>
+                  <th>Event</th>
+                </tr>
+              </table>
+
+              <div id="todosWoTime">
+
+              </div>
+            </div>
           </div>
         </div>
     </body>
