@@ -87,8 +87,8 @@ button {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
   margin: 10px 5px;
   padding: 5px 16px 16px 16px;
-  max-width: 600px;
-  height: 100px;
+  /* max-width: 600px;
+  height: 100px; */
 }
 
 #modes {
@@ -221,6 +221,18 @@ td {
 }
 
 table {
-  width: 600px;
+  width: 900px;
   border: 1px solid black;
+}
+
+td {
+  height: 50px;
+  overflow: hidden;
+}
+
+.events {
+  width: 700px;
+  text-align: center;
+  border: 0;
+  background-color: #7fcc1b;
 }

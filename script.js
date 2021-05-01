@@ -390,9 +390,15 @@ function submitNewTodo(e) {
     </div>
     `;
 
+    let f = parseTime(starts);
+    let t = parseTime(ends);
+
+    let intervals = (t-f)/30;
+
     if (event === '') {
         alert('Please specify a new event.');
     } else {
+        document.getElementById(`e-${starts}`).rowSpan = intervals + '';
         document.getElementById(`e-${starts}`).innerHTML = newTodo;
         // $("#e-"+starts).append(newTodo);
         // $('#newCompose').replaceWith(`<button class="but" id="compose">Click Here to Add A New Event</button>`);
@@ -568,7 +574,7 @@ function genTimeSlots(startTime) {
         elems += `
             <tr>
                 <td id="t-${slots[i]}">${slots[i]}</td>
-                <td id="e-${slots[i]}"></td>
+                <td id="e-${slots[i]}" class="events"></td>
             </tr>
         `;
     };
@@ -623,3 +629,6 @@ $(function() {
 // hourly timeinput
 // when to go to bed, alarm api
 // payment??
+
+// add delete on created events, add check button on created events
+// format the cells
