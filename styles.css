@@ -76,15 +76,10 @@ button {
 
 .todo {
   display: block;
-  background-color: #e0c963;
+  background-color: #7fcc1b;
   font-family: "Helvetica Neue", Roboto, "Segoe UI", Calibri, sans-serif;
   font-size: 20px;
   line-height: 25px;
-  border-color: #eee #ddd #bbb;
-  border-radius: 5px;
-  border-style: solid;
-  border-width: 1px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
   margin: 10px 5px;
   padding: 5px 16px 16px 16px;
   /* max-width: 600px;
@@ -106,13 +101,14 @@ button {
   background-color: #7fcc1b;
 }
 
-table,
+.wea table,
 th,
 td {
   border: 1px solid black;
   border-collapse: collapse;
 }
-th,
+
+.wea th,
 td {
   padding: 5px;
   text-align: left;
@@ -187,6 +183,27 @@ td {
   float: right;
 }
 
+#check {
+  display: inline;
+  height: 20px;
+  width: 40px;
+  float: right;
+}
+
+#trash {
+  display: inline;
+  height: 20px;
+  width: 40px;
+  float: left;
+}
+
+#cancelWeather {
+  display: inline;
+  height: 20px;
+  width: 20px;
+  float: right;
+}
+
 .popup {
   margin: 70px auto;
   padding: 20px;
@@ -220,19 +237,30 @@ td {
   overflow: auto;
 }
 
-table {
+#todosWTime {
+  border-collapse: separate;
+  border-spacing: 1px 0px;
   width: 900px;
   border: 1px solid black;
+  background-color: #eff0e8df;
 }
 
-td {
-  height: 50px;
+#todosWTime td {
+  height: 80px;
+  width: 100px;
   overflow: hidden;
+  text-align: center;
 }
 
 .events {
-  width: 700px;
+  width: auto;
+  height: auto;
   text-align: center;
   border: 0;
-  background-color: #7fcc1b;
+}
+
+caption {
+  font-family: serif;
+  font-size: 30px;
+  color: rgba(76, 142, 173, 0.89);
 }

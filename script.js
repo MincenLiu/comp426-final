@@ -95,10 +95,22 @@ function signup(e) {
 
     const promise = auth.createUserWithEmailAndPassword(email, pass);
     promise.then(() => {
+        $('#afterWakeUp').addClass('hide');
         dbRefUsers.child(emailStr).set({
             email: `${email}`,
             isDark: false
         });
+
+        let wakeUpPopUp = `
+            <div id="popup" class="popup">
+                <h2>What time did you wake up today?</h2>
+                <input type="image" id="close" alt="Close" src="./assets/Check.png">
+                <input type="time" id="wakeUp" name="wakeUp" required>
+            </div>`;
+
+        if (!$('#popup').length) {
+            $('#weather').after(wakeUpPopUp);
+        }
     });
     promise.catch(e => console.log(e.message));
 }
@@ -355,7 +367,6 @@ function submitNewTodo(e) {
     // add to the list of events
     // check event, event cannot be empty
 
-    let $todos = $('#todos');
     let starts = $('#starts').val();
     console.log(starts);
     let ends = $('#ends').val();
@@ -363,11 +374,9 @@ function submitNewTodo(e) {
     let location = $('#location').val();
     let notes = $('#notes').val();
 
-    // check ends > starts: to do
-    // if (starts > ends) {
-    //     alert('End time should be after start time.');
-    // }
-    //////////////////
+    // check ends > starts
+    let starts_num = parseTime(starts);
+    let ends_num = parseTime(ends);
 
     let loc = '';
     if (location !== '') {
@@ -387,6 +396,11 @@ function submitNewTodo(e) {
 
         ${loc}
         ${not}
+        </br>
+
+        <input type="image" id="trash" alt="Delete" src="./assets/Delete.png" start="${starts}">
+        <input type="image" id="check" alt="Check" src="./assets/Finish.jpeg" start="${starts}">
+        <br>
     </div>
     `;
 
@@ -395,8 +409,10 @@ function submitNewTodo(e) {
 
     let intervals = (t-f)/30;
 
-    if (event === '') {
-        alert('Please specify a new event.');
+    if (event === '' || starts === '' || ends === '') {
+        alert('Please specify a new event and when do you plan to do it.');
+    } else if (starts_num >= ends_num) {
+        alert('End time should be after start time.');
     } else {
         document.getElementById(`e-${starts}`).rowSpan = intervals + '';
         document.getElementById(`e-${starts}`).innerHTML = newTodo;
@@ -408,12 +424,35 @@ function submitNewTodo(e) {
     $('#newTodoForm')[0].reset();
 }
 
-// empty that time slot
-function deleteToDo() {
-
+// empty that time slot, remove rowSpan attribute
+function deleteAToDo(e) {
+    e.preventDefault();
+    let startTime = e.target.getAttribute('start');
+    document.getElementById(`e-${startTime}`).innerHTML = '';
+    document.getElementById(`e-${startTime}`).removeAttribute('rowSpan');
 }
 
-function cancelNewTodo() {
+// Strike through the contents within a todo
+function completed(e) {
+    e.preventDefault();
+    let startTime = e.target.getAttribute('start');
+    if (document.getElementById(`e-${startTime}`).hasAttribute('text-decoration')) {
+        document.getElementById(`e-${startTime}`).removeAttribute('text-decoration');
+        let eles = document.getElementById(`e-${startTime}`).querySelectorAll("div");
+        for (let i = 0; i < eles.length; i++) {
+            eles[i].style.textDecoration = '';
+        };
+    } else {
+        document.getElementById(`e-${startTime}`).setAttribute('text-decoration', 'line-through');
+        let eles = document.getElementById(`e-${startTime}`).querySelectorAll("div");
+        for (let i = 0; i < eles.length; i++) {
+            eles[i].style.textDecoration = 'line-through';
+        };
+    }
+}
+
+function cancelNewTodo(e) {
+    e.preventDefault();
     // $('#newCompose').replaceWith(`<button class="but" id="compose">Click Here to Add A New Event</button>`);
     $('#newTodoForm')[0].reset();
 }
@@ -483,9 +522,10 @@ async function curWeather() {
     let weather = `
         <div>
             <h2>Now the weather in ${fullAddress} is ${descript}.</h2>
+            <input type="image" id="cancelWeather" alt="Collapse" src="./assets/Close.png">
             <img src="${iconImg}" alt="Weather icon">
         </div>
-        <table style="width:100%">
+        <table style="width:100%" class="wea">
             <tr>
                 <th>TEMPERATURE</th>
                 <th>HUMIDITY</th>
@@ -528,6 +568,11 @@ function collapse(e) {
     e.preventDefault();
     // add hide to calendar
     $('#cal').addClass('hide');
+}
+
+function cancelShowWeather(e) {
+    e.preventDefault();
+    $('#weatherContainer').empty();
 }
 
 // add time slots in the table
@@ -608,6 +653,7 @@ export async function load() {
     $('body').on('click', '#btnLogOut', logout);
     // $('body').on('click', '#compose', showNewCompose);
     $root.on('click', '#submitTodo', submitNewTodo);
+    $root.on('click', '#cancelNew', cancelNewTodo);
 
     $root.on('click', '#prev', prevMonth);
     $root.on('click', '#next', nextMonth);
@@ -616,7 +662,12 @@ export async function load() {
     $root.on('click', '#getWeather', curWeather);
     $root.on('click', '#viewCal', viewCalendar);
     $root.on('click', '#collapse', collapse);
+    $root.on('click', '#cancelWeather', cancelShowWeather);
     $root.on('click', '#close', timeOk);
+
+    // for a todo to be check or deleted
+    $root.on('click', '#check', completed);
+    $root.on('click', '#trash', deleteAToDo);
     // $root.on('click', 'id of button', function);
 }
 
