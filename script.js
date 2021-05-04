@@ -684,7 +684,8 @@ function game(e) {
             imgs[i].src = './images/mouse.png';
         }
         imgs[num].style.visibility = 'visible';
-        imgs[num].onclick = function () {
+        imgs[num].onclick = function (e) {
+            e.preventDefault();
             this.src = './images/mouse2.png';
             f++;
             let that = this;

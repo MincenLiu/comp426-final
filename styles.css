@@ -16,6 +16,7 @@ body {
   max-width: 950px;
   margin: auto;
   padding: 2px;
+  background-color: #fffacd;
 }
 
 #date {
