@@ -173,18 +173,22 @@ function ok() {
 }
 
 function lightMode() {
-    $('body').css("background-color", "white");
-    $('#date').css("color", "black");
-    $('#quote').css("color", "black");
+    $('body').css("background-image", 'none');
+    $('body').css("background-color", "#FFFACD");
+    $('#weather').css("background-color", "");
     $('#todos').css("color", "black");
+    $('#header1').css("color", "black");
 }
 
 function darkMode() {
-    $('body').css("background-color", "black");
-    $('#quote').css("color", "white");
-    $('#date').css("color", "white");
+    let imgUrl = 'assets/hk.jpg';
+    $('body').css("background-image", 'url(' + imgUrl + ')');
+    $('body').css("background-repeat", "repeat");
+    $('body').css("background-position", "center");
+    $('body').css("background-size", "cover");
     $('#todos').css("color", "white");
-    $('#header1').css("color", "#ccc");
+    $('#header1').css("color", "#00FF7F");
+    $('#weather').css("background-color", "#ffffffaf");
 }
 
 // load the web page
@@ -195,7 +199,7 @@ export function loadPage() {
     // keepTheme(); // ?
     // newCompose();
     
-    let times = document.getElementsByClassName('times')[0];
+    let times = document.getElementsByClassName('t')[0];
     let fens = document.getElementsByClassName('fens')[0];
 
     let time = 30;
@@ -251,7 +255,7 @@ function calender() {
 		if((i<my_day && my_year==my_date.getFullYear() && my_month==my_date.getMonth()) || my_year<my_date.getFullYear() || ( my_year==my_date.getFullYear() && my_month<my_date.getMonth())){ 
 			myclass = " class='lightgrey'"; //当该日期在今天之前时，以浅灰色字体显示
 		}else if (i==my_day && my_year==my_date.getFullYear() && my_month==my_date.getMonth()){
-			myclass = " class='green greenbox'"; //当天日期以绿色背景突出显示
+			myclass = " class='blue greenbox'"; //当天日期以绿色背景突出显示
 		}else{
 			myclass = " class='darkgrey'"; //当该日期在今天之后时，以深灰字体显示
 		}
@@ -663,7 +667,7 @@ function game(e) {
     e.preventDefault();
     let imgs = document.getElementsByClassName('bd');
     let btn = document.getElementById('start');
-    let times = document.getElementsByClassName('times')[0];
+    let times = document.getElementsByClassName('t')[0];
     let fens = document.getElementsByClassName('fens')[0];
     
     let num = 0;

@@ -70,16 +70,15 @@
               <button id="changeTheme" class="bar-item bar-button">Change Theme</button>
               <button id="viewCal" class="bar-item bar-button">View Calendar</button>
               <button id="viewGame" class="bar-item bar-button">Play A Game</button>
-              <button id="btnLogOut" class="hide bar-item bar-button">Log Out</button>
+              <button id="btnLogOut" class="hide bar-item bar-button" style="float:right">Log Out</button>
             </div>
 
             <div id="cal" class="calendar hide">
-              <div class="title">
-                <h1 class="green" id="calendar-title">Month</h1>
-                <h2 class="green" id="calendar-year">Year</h2>
-                <br>
-                <button id="prev">Previous Month</button>
-                <button id="next">Next Month</button>
+              <div class="title" style="text-align: center">
+                <button id="prev" class="arrow left"></button>
+                <h1 class="blue" id="calendar-title">Month</h1>
+                <h2 class="blue" id="calendar-year">Year</h2>
+                <button id="next" class="arrow right"></button>
                 <input type="image" id="collapse" alt="Collapse" src="./assets/Close.png">
               </div>
               <div class="body">
@@ -112,20 +111,22 @@
               <img src="./images/mouse.png" alt="" class="bd">
               <img src="./images/mouse.png" alt="" class="bd">
               <button id="start">Start</button>
-              <div class="times"></div>
+              <div class="t"></div>
               <div class="fens"></div>
               <input type="image" id="closeGame" alt="Collapse" src="./assets/Close.png">
             </div>
 
-            <div id="date"></div>
-            <div id="quote"></div>
             <div id="weather">
-              <button id="getWeather">How's the weather now?</button>
+              <div id="date"></div>
+              <div id="quote"></div>
+              <br>
+
+              <input type="image" id="getWeather" alt="How's the weather now?" src="./assets/cloud.png"></input>
               <div id="weatherContainer"></div>
             </div>
 
             <div id="afterWakeUp">
-              <h1 id="header1">New Todo</h1>
+              <h2 id="header1">New Todo</h2>
               <div class="todoContainer" id="newCompose">
                 <form id="newTodoForm">
                     <textarea id="event" rows="4" cols="70" placeholder="New Event"></textarea>
