@@ -2,17 +2,9 @@
 // API2: IP Geo Location (https://rapidapi.com/natkapral/api/ip-geo-location/endpoints)
 // API3: Open Weather Map (https://rapidapi.com/community/api/open-weather-map?endpoint=53aa6041e4b00287471a2b62)
 // API4: Google Places API
-// API5: alarm?? Alert user time to sleep????
+// API5: Dad Jokes (https://rapidapi.com/KegenGuyll/api/dad-jokes/endpoints)
 
 
-// require user to input time!!!!!!!
-//!!!!
-
-// show weather based on location
-
-// Autocompletion on location
-
-// Problem1: set mode (light/dark) for user in firebase not work
 // create database reference
 const dbRefUsers = firebase.database().ref().child('users');
 
@@ -192,6 +184,7 @@ function darkMode() {
     $('#quote').css("color", "white");
     $('#date').css("color", "white");
     $('#todos').css("color", "white");
+    $('#header1').css("color", "#ccc");
 }
 
 // load the web page
@@ -199,9 +192,16 @@ export function loadPage() {
     curDate(); // today's date
     randomQuote();
     calender();
-    keepTheme();
+    // keepTheme(); // ?
     // newCompose();
     
+    let times = document.getElementsByClassName('times')[0];
+    let fens = document.getElementsByClassName('fens')[0];
+
+    let time = 30;
+    let f = 0;
+    times.innerText = 'Time left：' + time + 's！！';
+    fens.innerText = 'Score：' + f + ' points';
 }
 
 function curDate() {
@@ -306,6 +306,11 @@ function viewCalendar(e) {
 }
 
 
+function viewGame(e) {
+    e.preventDefault();
+    $('#box').removeClass('hide');
+}
+
 // new Todo
 // when, where (outside, indoor, address), how(walk, drive)
 // check weather, map
@@ -362,8 +367,7 @@ function viewCalendar(e) {
 // Add composed todo to the list
 function submitNewTodo(e) {
     e.preventDefault();
-    // things to check: end time is after start time; check overlap event; location should require user current location and calculate
-    // the time required; if outside then check weather: rain and temperature; sort based on starts time and
+    // things to check: end time is after start time; check overlap event; if outside then check weather: rain and temperature; sort based on starts time and
     // add to the list of events
     // check event, event cannot be empty
 
@@ -541,26 +545,6 @@ async function curWeather() {
     `;
 
     $('#weatherContainer').html(weather);
-
-
-
-    // const result2 = await axios ({
-    //     method: 'GET',
-    //     url: 'https://community-open-weather-map.p.rapidapi.com/forecast',
-    //     params: {
-    //         q: `${cityCountry}`, 
-    //         lat: `${lat}`,
-    //         lon: `${lon}`
-    //     },
-    //     headers: {
-    //       'x-rapidapi-key': '4226e9e8efmsh1ae9f1e95cd65b5p1a0519jsn2b7c0f60e348',
-    //       'x-rapidapi-host': 'community-open-weather-map.p.rapidapi.com'
-    //     }
-    // }).catch(function (error) {
-    //     console.error(error);
-    // });
-
-    // console.log(result2);
 }
 
 // make the calendar close
@@ -618,7 +602,7 @@ function genTimeSlots(startTime) {
     for (let i = 0; i < slots.length; i++) {
         elems += `
             <tr>
-                <td id="t-${slots[i]}">${slots[i]}</td>
+                <td id="t-${slots[i]}" class="times">${slots[i]}</td>
                 <td id="e-${slots[i]}" class="events"></td>
             </tr>
         `;
@@ -636,6 +620,100 @@ function genTimeSlots(startTime) {
 	    'maxTime': "23:30",
         'timeFormat': 'HH:mm',
     });
+}
+
+
+// Jokes
+async function jokes(e) {
+    e.preventDefault();
+    const result = await axios({
+        method: 'GET',
+        url: 'https://dad-jokes.p.rapidapi.com/random/joke',
+        params: {format: 'json'},
+        headers: {
+            'x-rapidapi-key': '4226e9e8efmsh1ae9f1e95cd65b5p1a0519jsn2b7c0f60e348',
+            'x-rapidapi-host': 'dad-jokes.p.rapidapi.com'
+        }
+    }).catch(function (error) {
+        console.error(error);
+    });
+
+    let setup = "- " + result.data.body[0].setup;
+    let punch = "- " + result.data.body[0].punchline;
+
+    $('#setup').html(setup);
+    $('#punchline').html(punch);
+
+    if (!$('#closeJoke').length) {
+        $('#punchline').after('<input type="image" id="closeJoke" alt="Close" src="./assets/Close.png"</input>');
+    }
+}
+
+function closeJoke(e) {
+    e.preventDefault();
+
+    $('#setup').empty();
+    $('#punchline').empty();
+    $('#closeJoke').remove();
+}
+
+
+// game: Beat Dook
+function game(e) {
+    e.preventDefault();
+    let imgs = document.getElementsByClassName('bd');
+    let btn = document.getElementById('start');
+    let times = document.getElementsByClassName('times')[0];
+    let fens = document.getElementsByClassName('fens')[0];
+    
+    let num = 0;
+    let time = 30;
+    let f=0;
+    btn.style.visibility = 'hidden';
+    times.innerText = 'Time left：' + time + 's！！';
+    fens.innerText = 'Score：' + f + ' points';
+    
+    let t2 = setInterval(function () {
+        num = Math.floor(Math.random() * imgs.length)
+        for (let i = 0; i < imgs.length; i++) {
+            imgs[i].style.visibility = 'hidden';
+            imgs[i].src = './images/mouse.png';
+        }
+        imgs[num].style.visibility = 'visible';
+        imgs[num].onclick = function () {
+            this.src = './images/mouse2.png';
+            f++;
+            let that = this;
+            setTimeout(function () {
+                that.style.visibility = 'hidden'
+            }, 200);
+            fens.innerText = 'Score：' + f + ' points';
+        }
+    }, 1000);
+    
+    let t1 = setInterval(function () {
+        times.innerText = 'Time left：' + time + 's！！'
+        time--;
+        if (time < 0) {
+            clearInterval(t1);
+            clearInterval(t2);
+            btn.style.visibility = 'visible';
+            for (let j = 0; j < imgs.length; j++) {
+                imgs[j].style.visibility = 'hidden';
+            };
+        };
+
+        if (btn.innerText == 'Start') {
+            btn.innerText = 'Restart';
+        };
+    }, 1000);
+}
+
+
+function closeGame(e) {
+    e.preventDefault();
+
+    $('#box').addClass('hide');
 }
 
 export async function load() {
@@ -668,7 +746,18 @@ export async function load() {
     // for a todo to be check or deleted
     $root.on('click', '#check', completed);
     $root.on('click', '#trash', deleteAToDo);
-    // $root.on('click', 'id of button', function);
+    
+    // get joke
+    $root.on('click', '#getJoke', jokes);
+    // close joke
+    $root.on('click', '#closeJoke', closeJoke);
+
+    // view game
+    $root.on('click', '#start', game);
+    $root.on('click', '#viewGame', viewGame);
+    // close game
+    $root.on('click', '#closeGame', closeGame);
+
 }
 
 $(function() {
@@ -677,9 +766,7 @@ $(function() {
 
 
 
-// hourly timeinput
-// when to go to bed, alarm api
-// payment??
 
-// add delete on created events, add check button on created events
+// payment??
 // format the cells
+
