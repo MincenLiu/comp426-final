@@ -14,4 +14,4 @@ Not Simply A Todo List is a web-based app for user to keep track of their day, b
 - Check current weather by simply clicking on the cute cloud button
 - Calendar is ready for you to view
 - Change theme whenever you would prefer
-- Like this website? Donate the devolopment with PayPal
+- Like this website? Donate the development with PayPal
