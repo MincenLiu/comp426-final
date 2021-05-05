@@ -18,7 +18,12 @@ function login(e) {
     // Log In
     const promise = auth.signInWithEmailAndPassword(email, pass);
     promise.then(() => {
-        $('#afterWakeUp').addClass('hide');      
+        $('#warning').html('');
+        let footer = `<footer id="footer">
+                        <small>Copyright &copy;2021 | Made With 🖥, ⌨️, and ❤️ by Mincen Liu. All rights reserved.</small>
+                    </footer>`;
+        $('body').append(footer);
+        $('#afterWakeUp').addClass('hide');     
         dbRefUsers.child(emailStr).child("isDark").on('value', function(snapshot) {
             let dark = snapshot.val();
 
@@ -40,7 +45,8 @@ function login(e) {
             $('#weather').after(wakeUpPopUp);
         }
     });
-    promise.catch(e => console.log(e.message));
+    promise.catch(e => $('#warning').html(`Warning: ${e.message}`));
+    //console.log(e.message)
 }
 
 function timeOk() {
@@ -58,24 +64,25 @@ function timeOk() {
     }
 }
 
-/////////// Not work: relogin everytime?////////// may be combine with some user property?
-function keepTheme() {
-    let user = firebase.auth().currentUser;
 
-    if (user != null) {
-        let curUserEmail = user.email;
-        let emailStr = curUserEmail.substring(0, curUserEmail.indexOf('@'));
-        dbRefUsers.child(emailStr).child("isDark").on('value', function(snapshot) {
-            let dark = snapshot.val();
+// function keepTheme() {
+//     let user = firebase.auth().currentUser;
 
-            if (dark) {
-                darkMode();
-            } else {
-                lightMode();
-            };
-        });
-    }
-}
+//     if (user != null) {
+//         let curUserEmail = user.email;
+//         let emailStr = curUserEmail.substring(0, curUserEmail.indexOf('@'));
+//         dbRefUsers.child(emailStr).child("isDark").on('value', function(snapshot) {
+//             let dark = snapshot.val();
+
+//             if (dark) {
+//                 darkMode();
+//             } else {
+//                 lightMode();
+//             };
+//         });
+//     }
+// }
+
 
 function signup(e) {
     e.preventDefault();
@@ -87,6 +94,11 @@ function signup(e) {
 
     const promise = auth.createUserWithEmailAndPassword(email, pass);
     promise.then(() => {
+        $('#warning').html('');
+        let footer = `<footer id="footer">
+                        <small>Copyright &copy;2021 | Made With 🖥, ⌨️, and ❤️ by Mincen Liu. All rights reserved.</small>
+                    </footer>`;
+        $('body').append(footer);
         $('#afterWakeUp').addClass('hide');
         dbRefUsers.child(emailStr).set({
             email: `${email}`,
@@ -104,7 +116,7 @@ function signup(e) {
             $('#weather').after(wakeUpPopUp);
         }
     });
-    promise.catch(e => console.log(e.message));
+    promise.catch(e => $('#warning').html(`Warning: ${e.message}`));
 }
 
 function logout(e) {
@@ -197,7 +209,6 @@ export function loadPage() {
     randomQuote();
     calender();
     // keepTheme(); // ?
-    // newCompose();
     
     let times = document.getElementsByClassName('t')[0];
     let fens = document.getElementsByClassName('fens')[0];
@@ -245,25 +256,25 @@ function calender() {
     var cyear = document.getElementById("calendar-year");
 
     var str = "";
-	var totalDay = daysMonth(my_month, my_year); //获取该月总天数
-	var firstDay = dayStart(my_month, my_year); //获取该月第一天是星期几
+	var totalDay = daysMonth(my_month, my_year); //number of days in a month
+	var firstDay = dayStart(my_month, my_year); //which weekday the first day of the month is
 	var myclass;
 	for(var i=1; i<firstDay; i++){ 
-		str += "<li></li>"; //为起始日之前的日期创建空白节点
+		str += "<li></li>"; //add empty slots before the first day
 	}
 	for(var i=1; i<=totalDay; i++){
 		if((i<my_day && my_year==my_date.getFullYear() && my_month==my_date.getMonth()) || my_year<my_date.getFullYear() || ( my_year==my_date.getFullYear() && my_month<my_date.getMonth())){ 
-			myclass = " class='lightgrey'"; //当该日期在今天之前时，以浅灰色字体显示
+			myclass = " class='lightgrey'"; //before today, grey
 		}else if (i==my_day && my_year==my_date.getFullYear() && my_month==my_date.getMonth()){
-			myclass = " class='blue greenbox'"; //当天日期以绿色背景突出显示
+			myclass = " class='blue greenbox'"; //today, green
 		}else{
-			myclass = " class='darkgrey'"; //当该日期在今天之后时，以深灰字体显示
+			myclass = " class='darkgrey'"; //after today, dark grey
 		}
-		str += "<li"+myclass+">"+i+"</li>"; //创建日期节点
+		str += "<li"+myclass+">"+i+"</li>";
 	}
-	holder.innerHTML = str; //设置日期显示
-	ctitle.innerHTML = month_name[my_month]; //设置英文月份显示
-	cyear.innerHTML = my_year; //设置年份显示
+	holder.innerHTML = str; //set date
+	ctitle.innerHTML = month_name[my_month]; //set month
+	cyear.innerHTML = my_year; //set year
 }
 
 function dayStart(month, year) {
@@ -315,58 +326,6 @@ function viewGame(e) {
     $('#box').removeClass('hide');
 }
 
-// new Todo
-// when, where (outside, indoor, address), how(walk, drive)
-// check weather, map
-// function newCompose() {
-//     let todo = `
-//         <div class="todoContainer" id="newCompose">
-//             <form>
-//                 <textarea id="event" rows="4" cols="70" placeholder="New Event"></textarea>
-//                 <br>
-//                 <br>
-
-//                 <div id="time">
-//                     <label for="starts">starts: </label>
-//                     <input type="time" id="starts" name="starts">
-
-//                     <label for="ends">ends: </label>
-//                     <input type="time" id="ends" name="ends">
-//                 </div>
-                
-//                 <div id="place">
-//                     <p>Choose a place: </p>
-//                     <input type="radio" id="home" name="place" value="Stay at home">
-//                     <label for="home">Stay at home</label><br>
-//                     <input type="radio" id="out" name="place" value="Go out">
-//                     <label for="out">Go out</label>
-//                 </div>
-//                 <br>
-//                 <br>
-
-//                 <input id="location" placeholder="Enter a place" type="text"/>
-//                 <br>
-//                 <br>
-
-//                 <textarea id="notes" rows="3" cols="70" placeholder="Add Notes"></textarea>
-//                 <br>
-
-//                 <div>
-//                     <button class="but" id="submitTodo">Confirm</button>
-//                     <button class="but" id="cancelNew">Cancel</button>
-//                 </div>
-//             </form>
-//         </div>
-//     `;
-
-//     $('#header1').after(todo);
-// }
-
-// function showNewCompose(e) {
-//     e.preventDefault();
-//     let $compose = $('#compose');
-//     $compose.replaceWith(newCompose());
-// }
 
 // Add composed todo to the list
 function submitNewTodo(e) {
@@ -416,6 +375,8 @@ function submitNewTodo(e) {
     let t = parseTime(ends);
 
     let intervals = (t-f)/30;
+    let randomColor = Math.floor(Math.random()*16777215).toString(16);
+    randomColor = "#" + randomColor;
 
     if (event === '' || starts === '' || ends === '') {
         alert('Please specify a new event and when do you plan to do it.');
@@ -424,6 +385,8 @@ function submitNewTodo(e) {
     } else {
         document.getElementById(`e-${starts}`).rowSpan = intervals + '';
         document.getElementById(`e-${starts}`).innerHTML = newTodo;
+        document.getElementById(`e-${starts}`).style.gridColumn =  "auto /span " + intervals;
+        document.getElementById(`e-${starts}`).style.backgroundColor =  randomColor;
         // $("#e-"+starts).append(newTodo);
         // $('#newCompose').replaceWith(`<button class="but" id="compose">Click Here to Add A New Event</button>`);
     }
@@ -438,6 +401,8 @@ function deleteAToDo(e) {
     let startTime = e.target.getAttribute('start');
     document.getElementById(`e-${startTime}`).innerHTML = '';
     document.getElementById(`e-${startTime}`).removeAttribute('rowSpan');
+    document.getElementById(`e-${startTime}`).style.gridColumn = '';
+    document.getElementById(`e-${startTime}`).style.backgroundColor = '';
 }
 
 // Strike through the contents within a todo
@@ -768,10 +733,4 @@ export async function load() {
 $(function() {
     load();
 });
-
-
-
-
-// payment??
-// format the cells
 
