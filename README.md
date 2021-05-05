@@ -12,6 +12,6 @@ Not Simply A Todo List is a web-based app for user to keep track of their day, b
 - Working on your schedule
 - Feeling tired? Have some jokes and play a round of "Rameses vs. Blue Devil"
 - Check current weather by simply clicking on the cute cloud button
-- Calendar is ready for you to view
-- Change theme whenever you would prefer
+- Calendar is also ready for you to view
+- Changed your mind? Edit your schedule or theme whenever you would prefer
 - Like this website? Donate the development with PayPal
