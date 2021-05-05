@@ -475,7 +475,6 @@ caption {
 /*todo buttons*/
 #submitTodo,
 #cancelNew {
-  border-radius: 30px;
   background-color: #f3ebebf8;
 }
 
