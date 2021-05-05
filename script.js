@@ -219,11 +219,6 @@ export function loadPage() {
     let f = 0;
     times.innerText = 'Time left：' + time + 's！！';
     fens.innerText = 'Score：' + f + ' points';
-
-    if (!$('.times').length) {
-        firebase.auth().signOut();
-        lightMode();
-    }
 }
 
 function curDate() {
