@@ -729,4 +729,3 @@ export async function load() {
 $(function() {
     load();
 });
-
