@@ -22,7 +22,9 @@ function login(e) {
         let footer = `<footer id="footer">
                         <small>Copyright &copy;2021 | Made With 🖥, ⌨️, and ❤️ by Mincen Liu. All rights reserved.</small>
                     </footer>`;
-        $('body').append(footer);
+        if (!$('#footer').length) {
+            $('body').append(footer);
+        }
         $('#afterWakeUp').addClass('hide');     
         dbRefUsers.child(emailStr).child("isDark").on('value', function(snapshot) {
             let dark = snapshot.val();
@@ -98,7 +100,9 @@ function signup(e) {
         let footer = `<footer id="footer">
                         <small>Copyright &copy;2021 | Made With 🖥, ⌨️, and ❤️ by Mincen Liu. All rights reserved.</small>
                     </footer>`;
-        $('body').append(footer);
+        if (!$('#footer').length) {
+            $('body').append(footer);
+        }
         $('#afterWakeUp').addClass('hide');
         dbRefUsers.child(emailStr).set({
             email: `${email}`,
@@ -208,8 +212,6 @@ export function loadPage() {
     curDate(); // today's date
     randomQuote();
     calender();
-    // keepTheme(); // ?
-    
     let times = document.getElementsByClassName('t')[0];
     let fens = document.getElementsByClassName('fens')[0];
 
@@ -217,6 +219,11 @@ export function loadPage() {
     let f = 0;
     times.innerText = 'Time left：' + time + 's！！';
     fens.innerText = 'Score：' + f + ' points';
+
+    if (!$('.times').length) {
+        firebase.auth().signOut();
+        lightMode();
+    }
 }
 
 function curDate() {
@@ -688,12 +695,6 @@ function closeGame(e) {
 
 export async function load() {
     loadPage();
-    // $('#starts').timepicker({
-    //     'timeFormat': 'HH:mm',
-    // });
-    // $('#ends').timepicker({
-    //     'timeFormat': 'HH:mm',
-    // });
     let $root = $('#root');
 
     $('body').on('click', '#btnLogIn', login);
