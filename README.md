@@ -1,6 +1,6 @@
 # Not Simply A Todo List
 ## Website
-Link: <>
+Link: <https://mincenliu.github.io/comp426-final/>
 ## Description
 Not Simply A Todo List is a web-based app for user to keep track of their day, but not simply to keep track of their day.
 ## Usage
