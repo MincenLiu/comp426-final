@@ -55,7 +55,8 @@ function timeOk(e) {
     e.preventDefault();
     // remove popup, display new Todo, add time slots...
     let wakeUpTime = $('#wakeUp').val();
-    $('#wakeUp').val('');
+    
+    document.getElementById('wakeUp').value = '';
 
     if (wakeUpTime !== '') {
         $('#popup').remove();
