@@ -51,14 +51,17 @@ function login(e) {
     //console.log(e.message)
 }
 
-function timeOk() {
+function timeOk(e) {
+    e.preventDefault();
     // remove popup, display new Todo, add time slots...
     let wakeUpTime = $('#wakeUp').val();
 
     if (wakeUpTime !== '') {
         $('#popup').remove();
         $('#afterWakeUp').removeClass('hide');
-        genTimeSlots(wakeUpTime);
+        if (!$('.times').length) {
+            genTimeSlots(wakeUpTime);
+        }
     } else {
         if (!$('#inputPlz').length) {
             $('#wakeUp').after('<p id="inputPlz">Please input your wakeup time.</p>');
