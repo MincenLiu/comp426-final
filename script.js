@@ -46,6 +46,8 @@ function login(e) {
         if (!$('#popup').length) {
             $('#weather').after(wakeUpPopUp);
         }
+
+        document.getElementById('wakeUp').value = '';
     });
     promise.catch(e => $('#warning').html(`Warning: ${e.message}`));
     //console.log(e.message)
@@ -122,6 +124,8 @@ function signup(e) {
         if (!$('#popup').length) {
             $('#weather').after(wakeUpPopUp);
         }
+
+        document.getElementById('wakeUp').value = '';
     });
     promise.catch(e => $('#warning').html(`Warning: ${e.message}`));
 }
