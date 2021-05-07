@@ -128,6 +128,7 @@ function signup(e) {
 
 function logout(e) {
     e.preventDefault();
+    document.getElementById('wakeUp').value = '';
     firebase.auth().signOut();
     lightMode();
 }
@@ -143,7 +144,6 @@ firebase.auth().onAuthStateChanged(firebaseUser => {
 
     } else {
         console.log('not logged in');
-        document.getElementById('wakeUp').value = '';
         $('#btnLogOut').addClass('hide');
         $('#root').addClass('hide');
 
