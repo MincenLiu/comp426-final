@@ -215,6 +215,12 @@ export function loadPage() {
     curDate(); // today's date
     randomQuote();
     calender();
+
+    // avoid duplicate cells
+    if ($('.trs').length) {
+        $('.trs').remove();
+    }
+
     let times = document.getElementsByClassName('t')[0];
     let fens = document.getElementsByClassName('fens')[0];
 
@@ -575,7 +581,7 @@ function genTimeSlots(startTime) {
 
     for (let i = 0; i < slots.length; i++) {
         elems += `
-            <tr>
+            <tr class="trs">
                 <td id="t-${slots[i]}" class="times">${slots[i]}</td>
                 <td id="e-${slots[i]}" class="events"></td>
             </tr>
