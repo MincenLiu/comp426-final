@@ -128,7 +128,6 @@ function signup(e) {
 
 function logout(e) {
     e.preventDefault();
-    document.getElementById('wakeUp').value = '';
     firebase.auth().signOut();
     lightMode();
 }
