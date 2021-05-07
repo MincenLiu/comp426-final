@@ -143,6 +143,7 @@ firebase.auth().onAuthStateChanged(firebaseUser => {
 
     } else {
         console.log('not logged in');
+        document.getElementById('wakeUp').value = '';
         $('#btnLogOut').addClass('hide');
         $('#root').addClass('hide');
 
