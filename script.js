@@ -55,13 +55,12 @@ function timeOk(e) {
     e.preventDefault();
     // remove popup, display new Todo, add time slots...
     let wakeUpTime = $('#wakeUp').val();
+    $('#wakeUp').val() = '';
 
     if (wakeUpTime !== '') {
         $('#popup').remove();
         $('#afterWakeUp').removeClass('hide');
-        if (!$('.times').length) {
-            genTimeSlots(wakeUpTime);
-        }
+        genTimeSlots(wakeUpTime);
     } else {
         if (!$('#inputPlz').length) {
             $('#wakeUp').after('<p id="inputPlz">Please input your wakeup time.</p>');
@@ -128,8 +127,6 @@ function signup(e) {
 
 function logout(e) {
     e.preventDefault();
-    $('.times').remove();
-    $('.events').remove();
     firebase.auth().signOut();
     lightMode();
 }
